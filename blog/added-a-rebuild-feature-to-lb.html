@@ -4,6 +4,9 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 <link rel='stylesheet' type='text/css' href='../style.css'>
 <meta charset='utf-8'/>
+<script>
+    function update(){document.documentElement.style.setProperty("--background",localStorage.getItem("background")),document.documentElement.style.setProperty("--text",localStorage.getItem("text"))}function dark(){localStorage.setItem("background","#1e232b"),localStorage.setItem("text","#f5f5f5"),update()}function light(){localStorage.setItem("background","#f5f5f5"),localStorage.setItem("text","#1e232b"),update()}window.addEventListener("load",()=>{null!==localStorage.getItem("background")&&null!==localStorage.getItem("text")&&update()});
+</script>
 </head>
 <body>
 <h1>Added a rebuild feature to lb</h1>
