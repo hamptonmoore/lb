@@ -33,7 +33,7 @@ listandReturn() { printf "Listing contents of %s.\\n" "$1"
 	chosen="$(ls -rc "$1" | nl | grep -w  "$number" | awk '{print $2}')"
 	basefile="$(basename "$chosen")" && base="${basefile%.*}" ;}
 
-publish() { \
+publish() { 
 	delete
 	htaccessentry=$(grep "$basefile" "$webdir/blog/.htaccess")
 	realname="$(echo "$htaccessentry" | cut -d'"' -f2)"
@@ -41,7 +41,7 @@ publish() { \
 	[ -z "$rssdate" ] && rssdate="$(LC_TIME=en_US date '+%a, %d %b %Y %H:%M:%S %z')" # RSS date formats must comply with standards to validate.
 	webdate="$(date '+%a, %d %b %Y %H:%M:%S %z')" # But this visible date you can set to any format.
 	tmpdir=$(mktemp -d)
-	printf "<html>\\n<head>\\n<title>%s</title>\\n<meta name='viewport' content='width=device-width, initial-scale=1.0'>\\n<link rel='stylesheet' type='text/css' href='%s'>\\n<meta charset='utf-8'/>\\n</head>\\n<body>\\n<h1>%s</h1>\\n<small class='standalone'>[<a href='%s'>home</a>&mdash;<a href='%s#%s'>link</a>&mdash;<a href='%s'>standalone</a>]</small>\\n%s\\n<footer class='standalone'>by <strong><a href='%s'>%s</a></strong></footer>\\n</body>\\n\\n</html>" "$realname" "$css" "$realname" "$website" "../$blogfile" "$base" "$basefile" "$(cat "$webdir/blog/.drafts/$basefile")" "$website" "$name" > "$webdir/blog/$basefile"
+	printf "<html>\\n<head>\\n<title>%s | %s</title>\\n<meta name='viewport' content='width=device-width, initial-scale=1.0'>\\n<link rel='stylesheet' type='text/css' href='%s'>\\n<meta charset='utf-8'/>\\n</head>\\n<body>\\n<h1>%s</h1>\\n<small class='standalone'>[<a href='%s'>home</a>&mdash;<a href='%s#%s'>link</a>&mdash;<a href='%s'>standalone</a>]</small>\\n%s\\n<footer class='standalone'>by <strong><a href='%s'>%s</a></strong></footer>\\n</body>\\n\\n</html>" "$realname" "$name" "$css" "$realname" "$website" "../$blogfile" "$base" "$basefile" "$(cat "$webdir/blog/.drafts/$basefile")" "$website" "$name" > "$webdir/blog/$basefile"
 	printf "\\n<item>\\n<title>%s</title>\\n<guid>%s%s</guid>\\n<pubDate>%s</pubDate>\\n<description><![CDATA[\\n%s\\n]]></description>\\n</item>\\n\\n" "$realname" "$website" "blog/$basefile" "$rssdate" "$(cat "$webdir/blog/.drafts/$basefile")" >  "$tmpdir/rss"
 	printf "<div class='entry'>\\n<h2 id='%s'>%s</h2>\\n<small>[<a href='#%s'>link</a>&mdash;<a href='%s'>standalone</a>]</small>\\n%s\\n<small>%s</small>\\n</div>\\n" "$base" "$realname" "$base" "blog/$basefile" "$(cat "$webdir/blog/.drafts/$basefile")" "$webdate" > "$tmpdir/html"
 	printf "<li>%s &ndash; <a href=\"blog/%s\">%s</a></li>\\n" "$(date '+%Y %b %d')" "$basefile" "$realname" > "$tmpdir/index"
@@ -61,9 +61,23 @@ delete() { \
 	sed -i "/<li>.*<a href=\"blog\\/$base.html\">/d" $indexfile
 	rm "$webdir/blog/$basefile" 2>/dev/null && printf "Old blog entry removed.\\n" ;}
 
-revise() { awk "/^<small class='standalone'>\[/{flag=1;next}/<footer class='standalone'>/{flag=0}flag" "$webdir/blog/$chosen" > "$webdir/blog/.drafts/$basefile"
+revise() {
+	copyToDrafts
 	"$EDITOR" "$webdir/blog/.drafts/$basefile"
 	printf "Revision stored in blog/.drafts. Publish as normal entry when desired.\\n" ;}
+
+copyToDrafts(){
+	awk "/^<small class='standalone'>\[/{flag=1;next}/<footer class='standalone'>/{flag=0}flag" "$webdir/blog/$chosen" > "$webdir/blog/.drafts/$basefile"
+}
+
+build(){
+	ls -rc "$1" | awk -F '/' '{print $NF}' | while read line ; do
+		chosen=$line
+		basefile="$(basename "$chosen")" && base="${basefile%.*}"
+		copyToDrafts
+		publish
+	done
+}
 
 case "$1" in
 	n*) newpost ;;
@@ -72,5 +86,6 @@ case "$1" in
 	t*) listandReturn "$webdir"/blog/.drafts/ trash && confirm trash && rm -f "$webdir/blog/.drafts/$chosen" && sed -i "/ \"$base.html\"/d" "$webdir/blog/.htaccess" ; printf "Draft deleted.\\n" ;;
 	d*) listandReturn "$webdir"/blog/ delete && confirm delete && delete && sed -i "/ \"$base.html\"/d" "$webdir/blog/.htaccess" ;;
 	r*) listandReturn "$webdir"/blog/ revise && revise ;;
+	b*) build "$webdir"/blog/;;
 	*) printf "lb blog system by Luke Smith <luke@lukesmith.xyz>\\nUsage:\\n  lb n:\\tnew draft\\n  lb e:\\tedit draft\\n  lb p:\\tpublish/finalize draft\\n  lb r:\\trevise published entry\\n  lb t:\\tdiscard draft\\n  lb d:\\tdelete published entry\\n\\nBe sure to have the following pattern added to your RSS feed, blog file and blog index:\\n\\n<!-- LB -->\\n\\nNew content will be added directly below that sequence. This is required.\\nSee https://github.com/LukeSmithxyz/lb for more.\\n" ;;
 esac
