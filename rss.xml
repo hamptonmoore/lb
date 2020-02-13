@@ -22,9 +22,11 @@ The first of the features being a rebuild function.
 A rebuild function would rebuild all the HTML files in the blogs folder so that as I change the template the files all change.
 
 For my first project with modifying lb, I decided to tackle that problem and that feature has now been added.
-Going through Github commit history for my fork of lb is rather a big mess due to some issues with exponential duplication of the RSS and HTML feed, but all the changes made were on <a href="https://github.com/herohamp/lb/blob/1fbbbea960f583dc49b305bab9df130bf60a23f8/lb#L64-L95">lines 64 to 95 of the lb executable in commit #1fbbbea</a>.
+Going through Github commit history for my fork of lb is rather a big mess due to some issues with exponential duplication of the RSS and HTML feed, but all the changes made were on <a href="https://github.com/herohamp/lb/blob/2ccd87f973c61509881c63271c864d56439f7eee/lb#L64-L95">lines 64 to 95 of the lb executable in commit #2ccd87f</a>.
 ]]></description>
 </item>
+
+
 
 
 
