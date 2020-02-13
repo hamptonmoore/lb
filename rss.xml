@@ -12,6 +12,24 @@
 <!-- LB -->
 
 <item>
+<title>Added a rebuild feature to lb</title>
+<guid>https://hampton.pw/2020.html#added-a-rebuild-feature-to-lb</guid>
+<pubDate>Thu, 13 Feb 2020 21:08:03 +0100</pubDate>
+<description><![CDATA[
+As previously discussed this blog is run using lb by Luke Smith.
+It is a really nice bit of software but lacks a few features I wish it had.
+The first of the features being a rebuild function.
+A rebuild function would rebuild all the HTML files in the blogs folder so that as I change the template the files all change.
+
+For my first project with modifying lb, I decided to tackle that problem and that feature has now been added.
+Going through Github commit history for my fork of lb is rather a big mess due to some issues with exponential duplication of the RSS and HTML feed, but all the changes made were on <a href="https://github.com/herohamp/lb/blob/1fbbbea960f583dc49b305bab9df130bf60a23f8/lb#L64-L95">lines 64 to 95 of the lb executable in commit #1fbbbea</a>.
+]]></description>
+</item>
+
+
+
+
+<item>
 <title>Switching to lb</title>
 <guid>https://hampton.pw/2020.html#switching-to-lb</guid>
 <pubDate>Thu, 13 Feb 2020 19:43:35 +0100</pubDate>
@@ -27,13 +45,163 @@ This is when I stumbled across a <a href="https://lukesmith.xyz/blog/my-public-b
 I honestly do not even know if "software" is the right word to describe it, it's just an 80 line bash file.
 I have used other things he has made in the past, with my current installing of Arch Linux on his LARBS dot file.
 For its size, it was also surprisingly easy to use.
-It was as easy as placing a few <!-- LB --> comments in a few HTML files.
+It was as easy as placing a few LB comments in a few HTML files.
 Within a few minutes, I was up in running.
 It also makes adding and publishes posts super easy with intuitive and easy commands.
 With all of its benefits lb lacks in the expandability category for me because I am not great with complex shell scripts, but with time I am sure I will get there.
 It is also quite a pain to rebuild already generated pages after the blog's theme changes, but that sounds like a good first project.
 ]]></description>
 </item>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<item>
+<title></title>
+<guid>https://hampton.pw/2020.html#lmth</guid>
+<pubDate>Thu, 13 Feb 2020 21:22:19 +0100</pubDate>
+<description><![CDATA[
+
+]]></description>
+</item>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </channel>

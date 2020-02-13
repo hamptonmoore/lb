@@ -71,12 +71,16 @@ copyToDrafts(){
 }
 
 build(){
-	ls -rc "$1" | awk -F '/' '{print $NF}' | while read line ; do
+	cat  "$1" | awk -F'"' '{print $4}' | tac - | while read -r line ; do
+		echo "Processing $line"
 		chosen=$line
 		basefile="$(basename "$chosen")" && base="${basefile%.*}"
 		copyToDrafts
 		publish
 	done
+
+	tac $1 > "$1.1"
+	mv "$1.1" $1
 }
 
 case "$1" in
@@ -86,6 +90,6 @@ case "$1" in
 	t*) listandReturn "$webdir"/blog/.drafts/ trash && confirm trash && rm -f "$webdir/blog/.drafts/$chosen" && sed -i "/ \"$base.html\"/d" "$webdir/blog/.htaccess" ; printf "Draft deleted.\\n" ;;
 	d*) listandReturn "$webdir"/blog/ delete && confirm delete && delete && sed -i "/ \"$base.html\"/d" "$webdir/blog/.htaccess" ;;
 	r*) listandReturn "$webdir"/blog/ revise && revise ;;
-	b*) build "$webdir"/blog/;;
+	b*) build "$webdir"/blog/.htaccess;;
 	*) printf "lb blog system by Luke Smith <luke@lukesmith.xyz>\\nUsage:\\n  lb n:\\tnew draft\\n  lb e:\\tedit draft\\n  lb p:\\tpublish/finalize draft\\n  lb r:\\trevise published entry\\n  lb t:\\tdiscard draft\\n  lb d:\\tdelete published entry\\n\\nBe sure to have the following pattern added to your RSS feed, blog file and blog index:\\n\\n<!-- LB -->\\n\\nNew content will be added directly below that sequence. This is required.\\nSee https://github.com/LukeSmithxyz/lb for more.\\n" ;;
 esac
