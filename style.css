@@ -49,3 +49,7 @@ footer.standalone {
 li {
     list-style-type: none;
 }
+
+p {
+	text-indent: 2em;
+}
