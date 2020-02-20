@@ -1,3 +1,7 @@
+# Credit Given Where Credit is Due
+
+I would like to thanke my dear friend [Colin](https://github.com/SuperC03) for suggesting multiple fixes to my unreasonably minimal blog site. Moreover, I would be honored if he would insert a link at the bottom of the readme for his superior gradespeed site to an archived page containing my name in recognition of my efforts to assist him. Thank You.
+
 # lb -- Luke's Blog Script
 
 Blogs and RSS feeds in less than 100 lines of shell script, actually, right now, less than 80.  `lb` stands for whatever. Maybe "Luke's blog", maybe "lightweight blog", maybe "less bloat", doesn't matter that much.
